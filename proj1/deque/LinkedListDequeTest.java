@@ -256,6 +256,10 @@ public class LinkedListDequeTest {
             lld2.addLast(i);
         }
         assertTrue("Should return True", lld1.equals(lld2));
+
+
+        lld1 = null;
+        assertFalse("should be null", lld2.equals(lld1));
     }
 
     @Test
@@ -285,6 +289,8 @@ public class LinkedListDequeTest {
             }
         }
     }
+
+
 
     @Test
     public void removeFirst_DequeTest_5() {

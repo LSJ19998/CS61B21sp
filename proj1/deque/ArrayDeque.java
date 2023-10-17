@@ -10,7 +10,21 @@ public class ArrayDeque<T> {
         return (pos + items.length + ele) % items.length;
     }
 
+    private int prevFirst() {
+        return next(nextFirst, -1);
+    }
 
+    private int nextFirst() {
+        return next(nextFirst, 1);
+    }
+
+    private int prevLast() {
+        return next(nextFirst, -1);
+    }
+
+    private int nextLast() {
+        return next(nextLast, 1);
+    }
     private static final double FACTOR = 0.25;
 
     private T[] items;
@@ -41,7 +55,7 @@ public class ArrayDeque<T> {
             resizing();
         }
         items[nextFirst] = item;
-        nextFirst = next(nextFirst, -1);
+        nextFirst = nextFirst();
         size += 1;
     }
 
@@ -50,7 +64,7 @@ public class ArrayDeque<T> {
             resizing();
         }
         items[nextLast] = item;
-        nextLast = next(nextLast, 1);
+        nextLast = nextLast();
         size += 1;
     }
 
@@ -59,5 +73,8 @@ public class ArrayDeque<T> {
             resizing();
         }
 
+
+        size += 1;
+        nextLast = prevLast();
     }
 }

@@ -116,7 +116,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public boolean equals(Object o) {
-        if (o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != this.getClass() ) {
             return false;
         }
         if (o == this) {
