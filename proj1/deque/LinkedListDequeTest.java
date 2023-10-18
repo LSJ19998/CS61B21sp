@@ -110,7 +110,6 @@ public class LinkedListDequeTest {
 
     }
 
-
     @Test
     /* Add large number of elements to deque; check if order is correct. */
     public void bigLLDequeTest() {
@@ -128,7 +127,6 @@ public class LinkedListDequeTest {
             assertEquals("Should have the same value", (double) lld1.removeLast(), i, 0.0);
         }
     }
-
 
     @Test
     public void get_test() {
@@ -155,7 +153,6 @@ public class LinkedListDequeTest {
             assertEquals("Should have the same value",lld1.getRecursive(i), i, 0);
         }
     }
-
 
     @Test
     public void big_iterator_test() {
@@ -186,8 +183,6 @@ public class LinkedListDequeTest {
         Iterator<Integer> list_iterator = list.iterator();
         assertFalse(list_iterator.hasNext());
     }
-
-
 
     @Test
     public void nonEmptyInstantiationTest() {
@@ -245,7 +240,7 @@ public class LinkedListDequeTest {
     @Test
     public void equalsTest() {
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
-        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        ArrayDeque<Integer> lld2 = new ArrayDeque<>();
 
         for (int i = 0; i < 100; i += 1) {
             lld1.addLast(i);
@@ -290,8 +285,6 @@ public class LinkedListDequeTest {
         }
     }
 
-
-
     @Test
     public void removeFirst_DequeTest_5() {
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
@@ -309,4 +302,16 @@ public class LinkedListDequeTest {
 //        }
     }
 
+
+    @Test
+    public void printDequeueTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+
+        for (int i = 0; i < 10; i++) {
+            lld1.addLast(i);
+        }
+
+        lld1.printDeque();
+
+    }
 }

@@ -12,7 +12,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         private Node next;
 
         private T item;
-        public Node(Node p, T i, Node n) {
+         Node(Node p, T i, Node n) {
             prev = p;
             item = i;
             next = n;
@@ -37,18 +37,18 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     // 思考一下问题所在
     public  void addFirst(T item) {
         // 后指的是第一个元素
-        Node add_node = new Node(sentinel, item, sentinel.next);
-        sentinel.next = add_node;
-        add_node.next.prev = add_node;
+        Node addNode = new Node(sentinel, item, sentinel.next);
+        sentinel.next = addNode;
+        addNode.next.prev = addNode;
         size += 1;
     }
 
 
     public void addLast(T item) {
         // 前指的是第一个元素
-        Node new_node = new Node(sentinel.prev, item, sentinel);
-        sentinel.prev = new_node;
-        new_node.prev.next = new_node;
+        Node newNode = new Node(sentinel.prev, item, sentinel);
+        sentinel.prev = newNode;
+        newNode.prev.next = newNode;
         size += 1;
     }
 
@@ -56,22 +56,22 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         if (size == 0) {
             return null;
         }
-        Node removed_node = sentinel.next;
-        removed_node.next.prev = sentinel;
-        sentinel.next = removed_node.next;
+        Node removedNode = sentinel.next;
+        removedNode.next.prev = sentinel;
+        sentinel.next = removedNode.next;
         size -= 1;
-        return (T) removed_node.item;
+        return (T) removedNode.item;
     }
 
     public T removeLast() {
         if (size == 0) {
             return null;
         }
-        Node removed_node = sentinel.prev;
-        removed_node.prev.next = removed_node.next;
-        removed_node.next.prev = removed_node.prev;
+        Node removedNode = sentinel.prev;
+        removedNode.prev.next = removedNode.next;
+        removedNode.next.prev = removedNode.prev;
         size -= 1;
-        return (T) removed_node.item;
+        return (T) removedNode.item;
     }
 
 
@@ -90,14 +90,14 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         if (index < 0 || index >= size) {
             return null;
         }
-        return getRecursive_helper(index, sentinel.next);
+        return getRecursiveHelper(index, sentinel.next);
     }
 
-    public T getRecursive_helper(int index, Node node) {
+    public T getRecursiveHelper(int index, Node node) {
         if (index  == 0) {
             return (T) node.item;
         }
-        return getRecursive_helper(index - 1, (Node) node.next);
+        return getRecursiveHelper(index - 1, (Node) node.next);
     }
 
 
@@ -106,35 +106,33 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             return;
         }
         StringBuilder res = new StringBuilder("");
-        Node node = sentinel.next;
         for (T e: this) {
             res.append(e + " ");
-            node = node.next;
         }
         System.out.println(res);
         System.out.println("");
     }
 
     public boolean equals(Object o) {
-        if (o == null || o.getClass() != this.getClass() ) {
+        if (o == null) {
             return false;
         }
         if (o == this) {
             return true;
         }
-
-        // 一个新的问题
-        LinkedListDeque linko = (LinkedListDeque) o;
-        if (linko.size() != size) {
-            return false;
-        }
-
-        for(int i = 0; i < size; i += 1) {
-            if (!get(i).equals(linko.get(i))) {
+        if (o instanceof ArrayDeque || o instanceof LinkedListDeque) {
+            ArrayDeque<?> ad = (ArrayDeque<?>) o;
+            if (ad.size() != size) {
                 return false;
             }
+            for (int i = 0; i < size; i++) {
+                if (ad.get(i) != get(i)) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public Iterator<T> iterator() {
