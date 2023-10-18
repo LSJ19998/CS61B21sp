@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements  Iterable<T> {
+public class ArrayDeque<T> implements  Iterable<T>, Deque<T> {
 
     private int size;
     private int nextFirst;
@@ -170,7 +170,7 @@ public class ArrayDeque<T> implements  Iterable<T> {
             return true;
         }
         if (o instanceof ArrayDeque || o instanceof LinkedListDeque) {
-            ArrayDeque<?> ad = (ArrayDeque<?>) o;
+            ArrayDeque ad = (ArrayDeque) o;
             if (ad.size() != size) {
                 return false;
             }
