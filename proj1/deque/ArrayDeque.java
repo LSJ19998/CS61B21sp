@@ -34,7 +34,7 @@ public class ArrayDeque<T> implements  Iterable<T>, Deque<T> {
     private T[] items;
     public ArrayDeque() {
         items = (T[]) new Object[8];
-        nextFirst = items.length - 1;
+        nextFirst = 0;
         nextLast = 0;
         size = 0;
     }
@@ -49,29 +49,43 @@ public class ArrayDeque<T> implements  Iterable<T>, Deque<T> {
 
     // 減少元素的時候的情況
     private void subResizing() {
+        if (size <= 8) {
+            return;
+        }
         int newSize = (int) (items.length * FACTOR);
         T[] newItems = (T[]) new Object[newSize];
-        if (nextFirst < nextLast) {
-            System.arraycopy(items, subFirst(), newItems, 0, nextLast - nextFirst - 1);
-        }
-        if (nextFirst > nextLast) {
+        // nf需要subFirst, addFirst在开头相减为特殊情况
+        if (nextFirst == items.length - 1) {
+            System.arraycopy(items, 0, newItems, 0, size);
+        } else if (nextFirst > nextLast) {
             System.arraycopy(items, subFirst(), newItems, 0, items.length - nextFirst - 1);
             System.arraycopy(items, 0, newItems, items.length - nextFirst - 1, nextLast);
+        } else if (nextFirst < nextLast) {
+            System.arraycopy(items, subFirst(), newItems, 0, nextLast - nextFirst - 1);
         }
         items = newItems;
         nextLast = size;
         nextFirst = items.length - 1;
     }
 
-
-    // 增加數組的情況1
+    // 增加元素的情况
     private void addResizing() {
         int newSize = (int) (items.length * (1 + FACTOR));
         T[] newItems = (T[]) new Object[newSize];
-        if (nextLast != items.length - 1) {
-            System.arraycopy(items, addLast(), newItems, 0, items.length - (nextFirst + 1));
+        // 三种情况:
+        // 1. 在开始
+        if (nextLast == 0) {
+            System.arraycopy(items, 1, newItems, 0, size);
         }
-        System.arraycopy(items, 0, newItems, items.length - (nextFirst + 1), nextFirst);
+        // 2.在末尾
+        if (nextLast == items.length - 1) {
+            System.arraycopy(items, 0, newItems, 0, size);
+        }
+        // 3. 在中间
+        else {
+            System.arraycopy(items, addLast(), newItems, 0, items.length - addLast());
+            System.arraycopy(items, 0, newItems, items.length -addLast(), nextFirst);
+        }
         items = newItems;
         nextLast = size;
         nextFirst = items.length - 1;
@@ -90,6 +104,7 @@ public class ArrayDeque<T> implements  Iterable<T>, Deque<T> {
         if (nextFirst == nextLast) {
             addResizing();
         }
+
         items[nextLast] = item;
         nextLast = addLast();
         size += 1;
