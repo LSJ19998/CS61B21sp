@@ -30,9 +30,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return size;
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
+
 
     // 思考一下问题所在
     public  void addFirst(T item) {
@@ -93,7 +91,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return getRecursiveHelper(index, sentinel.next);
     }
 
-    public T getRecursiveHelper(int index, Node node) {
+    private T getRecursiveHelper(int index, Node node) {
         if (index  == 0) {
             return (T) node.item;
         }
@@ -113,33 +111,36 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         System.out.println("");
     }
 
+    @Override
     public boolean equals(Object o) {
+        if (!(o instanceof deque.LinkedListDeque)) {
+            return false;
+        }
+
         if (o == null) {
             return false;
         }
         if (o == this) {
             return true;
         }
-        if (o instanceof ArrayDeque || o instanceof LinkedListDeque) {
-            ArrayDeque ad = (ArrayDeque) o;
-            if (ad.size() != size) {
+
+        LinkedListDeque<?> lld = (LinkedListDeque<?>) o;
+        if (lld.size() != size) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (lld.get(i) != get(i)) {
                 return false;
             }
-            for (int i = 0; i < size; i++) {
-                if (ad.get(i) != get(i)) {
-                    return false;
-                }
-            }
-            return true;
         }
-        return false;
+        return true;
     }
 
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator<>();
     }
 
-    public class LinkedListDequeIterator<T> implements Iterator<T> {
+    private class LinkedListDequeIterator<T> implements Iterator<T> {
         private int index;
         private Node node;
 

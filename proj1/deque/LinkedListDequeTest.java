@@ -242,6 +242,8 @@ public class LinkedListDequeTest {
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
         ArrayDeque<Integer> lld2 = new ArrayDeque<>();
 
+
+
         for (int i = 0; i < 100; i += 1) {
             lld1.addLast(i);
         }

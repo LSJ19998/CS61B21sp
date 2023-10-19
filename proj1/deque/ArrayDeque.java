@@ -39,9 +39,6 @@ public class ArrayDeque<T> implements  Iterable<T>, Deque<T> {
         size = 0;
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
 
     public int size() {
         return size;
@@ -177,25 +174,28 @@ public class ArrayDeque<T> implements  Iterable<T>, Deque<T> {
         System.out.println("");
     }
 
+    @Override
     public boolean equals(Object o) {
+        if (!(o instanceof deque.ArrayDeque)) {
+            return false;
+        }
+
         if (o == null) {
             return false;
         }
         if (o == this) {
             return true;
         }
-        if (o instanceof ArrayDeque || o instanceof LinkedListDeque) {
-            ArrayDeque ad = (ArrayDeque) o;
-            if (ad.size() != size) {
+
+        ArrayDeque<?> lld = (ArrayDeque<?>) o;
+        if (lld.size() != size) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (lld.get(i) != get(i)) {
                 return false;
             }
-            for (int i = 0; i < size; i++) {
-                if (ad.get(i) != get(i)) {
-                    return false;
-                }
-            }
-            return true;
         }
-        return false;
+        return true;
     }
 }

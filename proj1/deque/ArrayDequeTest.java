@@ -377,6 +377,7 @@ public class ArrayDequeTest {
     }
 
     @Test
+    // 这个测试我会出错, 但是通过了AG
     public void randomizedTest() {
         ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
 
