@@ -3,13 +3,13 @@ package bstmap;
 import java.util.Iterator;
 import java.util.Set;
 
-public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
+public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     private Node root;
 
     private int size = 0;
 
-    private static class Node<K, V> {
+    private static   class Node<K, V> {
         public K key;
 
         public V val;
@@ -35,14 +35,14 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
 
     @Override
     public boolean containsKey(K key) {
-        return containsKey(root, (K) key);
+        return containsKey(root, key);
     }
 
     private boolean containsKey (Node node, K key) {
         if (node == null) {
             return false;
         }
-        int cmp = key.compareTo(node.key);
+        int cmp = key.compareTo((K) node.key);
 
         if (cmp < 0) {
             return containsKey(node.left, key);
@@ -64,7 +64,7 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
             return null;
         }
 
-        int cmp = key.compareTo(node.key);
+        int cmp = key.compareTo((K) node.key);
 
         if (cmp < 0) {
             return get(node.left, key);
@@ -91,7 +91,7 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
             return new Node(key, value ,null, null);
         }
 
-        int cmp = key.compareTo(node.key);
+        int cmp = key.compareTo((K) node.key);
 
         if (cmp < 0) {
             node.left = put(node.left, key, value);
@@ -106,7 +106,7 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V> {
     public void printInOrder() {
         printInOrder(root);
     }
-    
+
     private void printInOrder(Node node) {
         if (node == null) {
             return;
