@@ -22,7 +22,8 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = join(CWD, ".capers"); // TODO Hint: look at the `join`
+    // you can use join function, and you can use File function
+    static final File CAPERS_FOLDER = new File(".capers"); // TODO Hint: look at the `join`
                                             //      function in Utils
 
     /**
@@ -46,16 +47,21 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
-        File storyFile = join(CAPERS_FOLDER, "story");
-        String newStoryContent;
-        if (!storyFile.exists()) {
-            newStoryContent = text;
-        } else {
-            String storyContent = readContentsAsString(storyFile);
-            newStoryContent = storyContent + "\n" + text;
+
+        // 建立对于story文件的引用
+        File story = join(CAPERS_FOLDER, "story.txt");
+
+        // 这里有两种情况:  1. story文件不存在, 不用修改字符串 + 操作文件前, 会构造一个文件
+        // 2. story文件存在, 字符串为原本文件内的字符串 和 新加入的字符串
+        if (story.exists()) {
+            text = readContentsAsString(story) + "\n" + text;
         }
-        writeContents(storyFile, newStoryContent);
-        System.out.println(newStoryContent);
+
+        // 将字符串写入文件内
+        writeContents(story, text);
+
+        // 打印字符串
+        System.out.println(text);
     }
 
     /**
@@ -65,8 +71,11 @@ public class CapersRepository {
      */
     public static void makeDog(String name, String breed, int age) {
         // TODO
+        // 构造Dog实例
         Dog newDog = new Dog(name, breed, age);
+        // Dog实例存入DogName文件中
         newDog.saveDog();
+        // 打印Dog实例
         System.out.println(newDog);
     }
 
@@ -78,8 +87,14 @@ public class CapersRepository {
      */
     public static void celebrateBirthday(String name) {
         // TODO
+
+        // 从文件中提取出Dog实例
         Dog dogFromFile = Dog.fromFile(name);
+
+        // 改变Dog实例 -> age + 1
         dogFromFile.haveBirthday();
+
+        // 再将Dog实例存入文件中
         dogFromFile.saveDog();
     }
 }

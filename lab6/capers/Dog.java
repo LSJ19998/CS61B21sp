@@ -40,7 +40,9 @@ public class Dog implements Serializable { // TODO
      */
     public static Dog fromFile(String name) {
         // TODO (hint: look at the Utils file)
+        // 引用Dog文件
         File dog = join(DOG_FOLDER, name);
+        // 返回Dog对象
         return readObject(dog, Dog.class);
     }
 
@@ -58,7 +60,9 @@ public class Dog implements Serializable { // TODO
      */
     public void saveDog() {
         // TODO (hint: don't forget dog names are unique) -> create new File in dog dir
+        // 建立Dog文件
         File dog = join(DOG_FOLDER, name);
+        // 将Dog对象写入文件中
         writeObject(dog, this);
     }
 
